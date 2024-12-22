@@ -1,0 +1,18 @@
+services:
+  app:
+    build:
+      context: ./app
+      args:
+        APP_PUID: ${APP_PUID}
+        APP_PGID: ${APP_PGID}
+    container_name: ${APP_NAME}.app
+    user: ${APP_PUID}:${APP_PGID}
+    volumes:
+      - ../app/:/var/www/app:cached
+  nginx:
+    build: ./nginx
+    container_name: ${APP_NAME}.nginx
+    ports:
+      - ${NGINX_PORT}:80
+    volumes:
+      - ../app/:/var/www/app:cached
